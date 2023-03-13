@@ -43,3 +43,11 @@ user
 - must make use of data visualization (recharts preferred)
 - must be covered by tests with a coverage rate >= 90%
 - must be monitored using an online monitoring tool
+
+### Other Information
+SEVERLESS: this app will make use of serverless technology to..
+- avoid backend maintenance
+- make it easy to scale
+- always be available
+- avoid any cost for idle time
+- allow for authorization (AWS Lambda)
