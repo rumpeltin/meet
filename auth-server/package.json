@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Noémi Rumpeltin",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^59.0.0"
+  }
 }

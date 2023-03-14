@@ -1,18 +1,63 @@
-'use strict';
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const calendar = google.calendar("v3");
 
-module.exports.hello = async (event) => {
+/* SCOPES set access levels: read only */
+
+const SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
+
+/* Credential values: required to get access */
+
+const credentials = {
+  client_id: process.env.CLIENT_ID,
+  project_id: process.env.PROJECT_ID,
+  client_secret: process.env.CLIENT_SECRET,
+  calendar_id: process.env.CALENDAR_ID,
+  auth_uri: "https://accounts.google.com/o/oauth2/auth",
+  token_uri: "https://oauth2.googleapis.com/token",
+  auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+  redirect_uris: ["https://rumpeltin.github.io/meet/"],
+  javascript_origins: ["https://rumpeltin.github.io", "http://localhost:3000"],
+};
+const { client_secret, client_id, redirect_uris, calendar_id } = credentials;
+const oAuth2Client = new google.auth.OAuth2(
+  client_id,
+  client_secret,
+  redirect_uris[0]
+);
+
+/**
+ *  
+ * 1. generate a URL for users to get authenticated with Google
+ * users receive a code as a URL parameter
+ * 
+**/
+
+module.exports.getAuthURL = async () => {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES
+  });
+
   return {
     statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+    },
+    body: JSON.stringify({
+      authUrl: authUrl
+    }),
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
+
+
+/**
+ *
+ * Scopes array passed to the `scope` option.
+ * Any scopes passed must be enabled in the
+ * "OAuth consent screen" settingsConsole.
+ * Any passed scopes will be seen when the consent 
+ * screen is displayed to the users.
+ *
+**/
