@@ -42,8 +42,8 @@ module.exports.getAuthURL = async () => {
   return {
     statusCode: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
+      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Credentials": true
     },
     body: JSON.stringify({
       authUrl: authUrl
@@ -61,3 +61,47 @@ module.exports.getAuthURL = async () => {
  * screen is displayed to the users.
  *
 **/
+
+module.exports.getAccessToken = async(event) => {
+  // instantiate the OAuthClient first
+  const oAuth2Client = new google.auth.OAuth2(
+    client_id,
+    client_secret,
+    redirect_uris[0]
+  );
+  // decode authorization code extracted from URL query
+  const code = decodeURIComponent(`${event.pathParameters.code}`);
+
+  return new Promise((resolve, reject) => {
+    /**
+     *  exchange authorization code for access token with a “callback” after exchange
+     *   - arrow function with the results as parameters: “err” & “token"
+     */
+
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(token);
+    });
+  })
+    .then((token) => {
+      // respond with OAuth token 
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify(token),
+      };
+    })
+    .catch((err) => {
+      // handle potential errors
+      console.error(err);
+      return {
+        statusCode: 500,
+        body: JSON.stringify(err),
+      };
+    });
+};
