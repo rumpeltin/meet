@@ -62,46 +62,98 @@ module.exports.getAuthURL = async () => {
  *
 **/
 
-module.exports.getAccessToken = async(event) => {
-  // instantiate the OAuthClient first
+module.exports.getAccessToken = async (event) => {
+  // values used to instantiate the OAuthClient
+    const oAuth2Client = new google.auth.OAuth2(
+      client_id,
+      client_secret,
+      redirect_uris[0]
+    );
+    // decode authorization code extracted from URL query
+    const code = decodeURIComponent(`${event.pathParameters.code}`);
+  
+    return new Promise((resolve, reject) => {
+      /**
+       *  exchange authorization code for access token  a “callback” after exchange
+       *    - arrow function with results as parameters: “err” and “token”
+       */
+  
+      oAuth2Client.getToken(code, (err, token) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(token);
+      });
+    })
+      .then((token) => {
+        // respond with OAuth token 
+        return {
+          statusCode: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+          },
+          body: JSON.stringify(token),
+        };
+      })
+      .catch((err) => {
+        // handle error
+        console.error(err);
+        return {
+          statusCode: 500,
+          body: JSON.stringify(err),
+        };
+      });
+  };
+
+module.exports.getCalendarEvents = async(event) => {
+  // values used to instantiate the OAuthClient
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
     redirect_uris[0]
   );
   // decode authorization code extracted from URL query
-  const code = decodeURIComponent(`${event.pathParameters.code}`);
+    const access_token = decodeURIComponent(`${event.pathParameters.access_token}`);
+    oAuth2Client.setCredentials({ access_token });
 
   return new Promise((resolve, reject) => {
-    /**
-     *  exchange authorization code for access token with a “callback” after exchange
-     *   - arrow function with the results as parameters: “err” & “token"
-     */
 
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) {
-        return reject(err);
+    calendar.events.list(
+      {
+        calendarId: calendar_id,
+        auth: oAuth2Client,
+        timeMin: new Date().toISOString(),
+        singleEvents: true,
+        orderBy: 'startTime',
+      },
+      (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
       }
-      return resolve(token);
-    });
+    );
   })
-    .then((token) => {
+    .then((results) => {
       // respond with OAuth token 
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*',
-          "Access-Control-Allow-Credentials": true,
+          'Access-Control-Allow-Credentials': true,
         },
-        body: JSON.stringify(token),
+        body: JSON.stringify({ events: results.data.items })
       };
     })
-    .catch((err) => {
-      // handle potential errors
-      console.error(err);
-      return {
-        statusCode: 500,
-        body: JSON.stringify(err),
-      };
-    });
+      .catch((err) => {
+        // handle error
+        console.error(err);
+        return {
+          statusCode: 500,
+          body: JSON.stringify(err),
+        };
+      });
+
 };
