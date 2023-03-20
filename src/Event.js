@@ -32,7 +32,7 @@ class Event extends Component {
           {!collapsed && (
             <div className='details'>
               <h3 className='about'>
-                About this event:
+                About This Event:
               </h3>
               <a
                 className='link'
@@ -40,7 +40,7 @@ class Event extends Component {
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                See details on Google Calendar
+                See Details on Google Calendar
               </a>
               <p className='description'>
                 {event.description}
