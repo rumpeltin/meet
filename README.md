@@ -17,9 +17,9 @@ Calendar API to fetch upcoming events.
 ### User Stories:
 1. As a **user**, I should be able to **filter** the events by city, so that I can *see all events in a specific city*.
 1. As a **user**, I should be able to **expand/collaps** an event, so that I can *show/hide all details for a specific event*.
-1. As a **user**, I should be able to **specify** the number of events, so that I can see a specified number of events on each page. 
-1. As a **user**, I should be able to **use the app offline**, so that I can see its content when I have no internet connection.
-1. As a **user**, I should be able to **visualise** the events per city, so that I know which city has upcoming events.
+1. As a **user**, I should be able to **specify** the number of events, so that I can *see a specified number of events on each page*. 
+1. As a **user**, I should be able to **use the app offline**, so that I can *see its content when I have no internet connection*.
+1. As a **user**, I should be able to **visualise** the events per city, so that I *know which city has upcoming events*.
 
 ### Technical Requirements:
 - must be a React application
