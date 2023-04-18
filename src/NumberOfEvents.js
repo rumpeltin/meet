@@ -2,28 +2,26 @@ import React, { Component } from 'react';
 import { ErrorAlert } from "./Alert";
 
 class NumberOfEvents extends Component {
-  constructor() {
-    super();
-    this.state = {
-      num: 32,
-      errAlert: ""
-    };
-  }
+  state = { num: 32, alert: '' }
 
-  handleInputChanged = (event) => {
-    const value = event.target.value;
-    if (value >= 1 || value <= 32) {
-      this.setState({ num: value });
-      this.props.updateEvents(this.props.selectedCity, value);
-    } else {
-        this.setState({ errAlert: "Please choose a number between 1 and 32." });
-    };
-  };
+  handleInputChanged = (event, props) => {
+      let amount = event.target.value;
+      let err;
+
+      if (amount > 32) {
+        err = 'Sorry, we cannot show more than 32 events at once.';
+        amount = 32;
+      } else if (amount <= 0) {
+        err = 'Please choose at least 1.';
+        amount = 1;
+      }
+      this.props.updateEvents(null, amount);
+      this.setState({ num: amount, alert: err });
+    }
 
   render() {
     return (
-      <div>
-        <ErrorAlert text={this.state.errAlert} />
+      <>
         <input
           className='num'
           type='number'
@@ -32,7 +30,8 @@ class NumberOfEvents extends Component {
           value={this.state.num}
           onChange={this.handleInputChanged}
         />
-      </div>
+        <ErrorAlert text={this.state.alert} />
+      </>
     );
   }
 }

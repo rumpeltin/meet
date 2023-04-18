@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.citySearch {
+    display: inline-flex;
+}
+
+input.num {
+    width: 75px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
