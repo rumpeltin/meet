@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 // Custom Components
-
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import NumberOfEvents from './NumberOfEvents';
 import WelcomeScreen from './WelcomeScreen';
@@ -90,7 +89,9 @@ class App extends Component {
   }
 
   render() {
+    const offlineMessage = navigator.onLine ? "" : "You're offline — we cannot update any events in this mode.";
     if (this.state.showWelcomeScreen === undefined) return <div className="App" />
+
     return (
         <>
           <div className="App">
@@ -108,6 +109,7 @@ class App extends Component {
                 updateEvents={this.updateEvents}
               />
             </div>
+            <ErrorAlert message={offlineMessage} />
             <EventList events={this.state.events} />
           </div>
           <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
