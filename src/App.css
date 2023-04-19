@@ -83,7 +83,7 @@ input[type="number"] {
 .suggestions > li {
   text-align: left;
   padding: 8px 6px 8px 10px;
-  background-color: #eee;
+  background-color: rgba(78, 7, 116, 0.2);
   cursor: default;
 }
 
@@ -93,14 +93,13 @@ input[type="number"] {
 }
 
 .suggestions > li:hover {
-  background-color: #bcdcdb;
+  background-color: rgba(150, 77, 189, 0.8);
 }
 
 .Event {
-  padding: 10px 10px 35px;
   margin-bottom: 10px;
-  text-align: left;
-  border: 1px solid #ccc;
+  text-align: center;
+  border: 1px solid rgba(72, 36, 92, 1);
   border-radius: 4px;
   position: relative;
 }
@@ -124,12 +123,12 @@ input[type="number"] {
   top: 20px;
 }
 
-.CitySearch > .Alert {
-    position: fixed;
-    top: 35px;
+.CitySearch > .InfoAlert {
+  position: fixed;
+  top: 30px;
 }
 
-.NumberOfEvents > .Alert {
-    position: fixed;
-    top: 35px;
+.NumberOfEvents > .ErrorAlert {
+  position: fixed;
+  top: 40px;
 }

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
 // Custom Components
+
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
-import { InfoAlert } from './Alert';
+import NumberOfEvents from './NumberOfEvents';
 import WelcomeScreen from './WelcomeScreen';
+import CitySearch from './CitySearch';
+import { InfoAlert } from './Alert';
+import EventList from './EventList';
 import './nprogress.css';
 import './App.css';
 
-// Custom Components
-import NumberOfEvents from './NumberOfEvents';
-import CitySearch from './CitySearch';
-import EventList from './EventList';
 
 class App extends Component {
   state = {
