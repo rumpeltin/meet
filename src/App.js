@@ -4,9 +4,8 @@ import React, { Component } from 'react';
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import NumberOfEvents from './NumberOfEvents';
 import WelcomeScreen from './WelcomeScreen';
-import StatusBar from './StatusBar';
 import CitySearch from './CitySearch';
-import { InfoAlert } from './Alert';
+import { InfoAlert, ErrorAlert } from './Alert';
 import EventList from './EventList';
 import './nprogress.css';
 import './App.css';
@@ -95,7 +94,6 @@ class App extends Component {
     return (
         <>
           <div className="App">
-            <StatusBar />
             <InfoAlert text={this.state.infoText} />
             <h1>Search All Cities</h1>
             <div className="citySearch">
