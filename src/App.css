@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.Alert {
+  position: absolute;
+  bottom: 0;
+  left: 5;
+  z-index: 1;
+  padding: .25em;
+}
+
 .citySearch {
     display: inline-flex;
 }

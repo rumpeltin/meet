@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getEvents, extractLocations } from './api';
+import { InfoAlert } from './Alert';
 import './nprogress.css';
 import './App.css';
 
@@ -15,7 +16,6 @@ class App extends Component {
     eventCount: 32,
     selectedCity: null
   }
-
 
   updateEvents = (location, eventCount) => {
     if (!eventCount) {
@@ -62,15 +62,19 @@ class App extends Component {
     }
   };
 
+  networkStatus = () => {
+    this.setState({infoText: navigator.online ? 'online' : 'offline'})
+  };
 
   componentDidMount() {
     this.mounted = true;
+    window.addEventListener('online', this.networkStatus);
+    window.addEventListener('offline', this.networkStatus);
     getEvents().then((events) => {
       if (this.mounted) {
-        this.setState({
-          events: events.slice(0,this.state.eventCount),
-          locations: extractLocations(events),
-        });
+        events=events.slice(0,this.state.eventCount);
+        this.setState({ events, locations: extractLocations(events) });
+        this.networkStatus();
       }
     });
   }
@@ -82,6 +86,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <InfoAlert text={this.state.infoText} />
         <h1>Search All Cities</h1>
         <div className="citySearch">
           <CitySearch 
