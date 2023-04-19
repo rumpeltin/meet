@@ -88,7 +88,7 @@ class App extends Component {
   }
 
   render() {
-    const offlineMessage = navigator.onLine ? "" : "You're offline — we cannot update any events in this mode.";
+    const offlineMessage = navigator.onLine ? "Welcome! You're online." : "You're offline — we cannot update any events in this mode.";
     if (this.state.showWelcomeScreen === undefined) return <div className="App" />
 
     return (

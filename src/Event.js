@@ -48,6 +48,7 @@ class Event extends Component {
             </div>
           )}
         </div>
+        <hr />
       </div>
     );
   }

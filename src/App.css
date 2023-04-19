@@ -8,6 +8,14 @@
     display: inline-flex;
 }
 
+hr {
+  width: 25%;
+  margin-top: 20px;
+  border-color: rgba(99, 79, 142, 0.4);
+  background-color: rgba(99, 79, 142, 0.4);
+  color: rgba(99, 79, 142, 0.4);
+}
+
 input.num {
     width: 75px;
 }
