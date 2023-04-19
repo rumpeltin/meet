@@ -93,13 +93,6 @@ input[type="number"] {
   background-color: rgba(150, 77, 189, 0.8);
 }
 
-.Event {
-  margin-bottom: 10px;
-  text-align: center;
-  position: relative;
-  width: 50%;
-}
-
 .details-btn {
   position: absolute;
   right: 5px;
