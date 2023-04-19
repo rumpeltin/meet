@@ -30,6 +30,7 @@ class App extends Component {
         this.setState({
           events: locationEvents.slice(0, this.state.eventCount),
           selectedCity: location,
+          eventCount: this.state.eventCount
         });
       });
     } else if (eventCount && !location) {
