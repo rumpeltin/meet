@@ -2,33 +2,12 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.citySearch {
+    display: inline-flex;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input.num {
+    width: 75px;
 }
 
 ul {
@@ -100,7 +79,7 @@ input[type="number"] {
   background-color: #bcdcdb;
 }
 
-.event {
+.Event {
   padding: 10px 10px 35px;
   margin-bottom: 10px;
   text-align: left;
@@ -123,21 +102,17 @@ input[type="number"] {
   overflow-x: hidden;
 }
 
-.numberOfEvents {
-  width: 200px;
-  margin: 20px auto;
-  text-align: center;
-}
-
-.button-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
-  padding: 20px;
-  font-family: sans-serif;
-}
-
-.Alert {
+.App > .InfoAlert {
   position: fixed;
   top: 20px;
+}
+
+.CitySearch > .Alert {
+    position: fixed;
+    top: 35px;
+}
+
+.NumberOfEvents > .Alert {
+    position: fixed;
+    top: 35px;
 }
