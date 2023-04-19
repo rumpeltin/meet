@@ -10,36 +10,20 @@
         <![endif]-->
 
         <!-- no need for fancy styling on the privacy policy page... -->
-        <style>
-        body {
-          font-family: Verdana, sans-serif;
-          font-size: 0.8em;
-          background: hsl(190, 50%, 30%);
-          color: #fefefe;
-        }
-
-        h1 {
-          text-align: center;
-          color: hsl(145, 100%, 80%)
-        }
-
-        article {
-          max-width: 35rem;
-          margin: 2.2rem auto;
-        }
-      </style>
     </head>
 
     <body>
-        <h1>Privacy Policy</h1>
-        <article>
-            <h2>Last updated: 4/19/2023</h2>
-            <p>
-                This site is used specifically for education purposes and has no commercial intent or use. <br>
-                No personal data is collected or saved at any stage and the calendar accessed is not a personal calendar,
-                but one created specifically for the project.
-            </p>
-        </article>
+        <div className="container fixed w-full top-0 left-0 min-h-screen flex items-center text-center flex-col py-10 bg-gray-50 gap-6">
+            <h1 className="text-3xl sm:text-4xl text-blue-500 mt-36">Privacy Policy</h1>
+            <article>
+                <h2 className="text-2xl sm:text-2x">Last updated: 4/19/2023</h2>
+                <p>
+                    This site is used specifically for education purposes and has no commercial intent or use. <br>
+                    No personal data is collected or saved at any stage and the calendar accessed is not a personal calendar,
+                    but one created specifically for the project.
+                </p>
+            </article>
+        </div>
     </body>
 
 </html>
