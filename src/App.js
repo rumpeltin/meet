@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import NumberOfEvents from './NumberOfEvents';
 import WelcomeScreen from './WelcomeScreen';
+import StatusBar from './StatusBar';
 import CitySearch from './CitySearch';
 import { InfoAlert } from './Alert';
 import EventList from './EventList';
@@ -66,10 +67,6 @@ class App extends Component {
     }
   };
 
-  networkStatus = () => {
-    this.setState({infoText: navigator.online ? 'online' : 'offline'})
-  };
-
     async componentDidMount() {
       this.mounted = true;
       const accessToken = localStorage.getItem('access_token');
@@ -86,11 +83,6 @@ class App extends Component {
           }
         });
       }
-
-      window.addEventListener('online', this.networkStatus);
-      window.addEventListener('offline', this.networkStatus);
-
-      this.networkStatus();
     }
 
   componentWillUnmount(){
@@ -102,6 +94,7 @@ class App extends Component {
     return (
         <>
           <div className="App">
+            <StatusBar />
             <InfoAlert text={this.state.infoText} />
             <h1>Search All Cities</h1>
             <div className="citySearch">
