@@ -2,6 +2,23 @@
   text-align: center;
 }
 
+.status-bar {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  border-bottom: 1.1px solid rgba(99, 77, 112, 1);
+  background: rgba(230, 214, 240, 1);
+}
+
+.status-bar > .network-status {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  z-index: 2;
+}
+
 .citySearch {
     display: inline-flex;
 }
