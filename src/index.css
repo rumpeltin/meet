@@ -54,6 +54,13 @@ input[type="number"] {
   position: relative;
 }
 
+.Event {
+  margin-bottom: 10px;
+  text-align: center;
+  position: relative;
+  width: 50%;
+}
+
 .suggestions {
   width: 250px;
   position: absolute;
@@ -81,15 +88,6 @@ input[type="number"] {
   background-color: #bcdcdb;
 }
 
-.event {
-  padding: 10px 10px 35px;
-  margin-bottom: 10px;
-  text-align: left;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  position: relative;
-}
-
 .details-btn {
   position: absolute;
   right: 5px;
@@ -100,37 +98,8 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.name {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.group-name {
-  text-transform: uppercase;
-  font-size: 14px;
-}
-
-.going,
-.visibility {
-  font-style: italic;
-}
-
 .description {
   overflow-x: hidden;
-}
-
-.numberOfEvents {
-  width: 200px;
-  margin: 20px auto;
-  text-align: center;
-}
-
-.button-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
-  padding: 20px;
-  font-family: sans-serif;
 }
 
 .Alert {
