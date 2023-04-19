@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { getEvents, extractLocations } from './api';
+
+// Custom Components
+import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import { InfoAlert } from './Alert';
+import WelcomeScreen from './WelcomeScreen';
 import './nprogress.css';
 import './App.css';
 
@@ -14,7 +17,8 @@ class App extends Component {
     events: [],
     locations: [],
     eventCount: 32,
-    selectedCity: null
+    selectedCity: null,
+    showWelcomeScreen: undefined
   }
 
   updateEvents = (location, eventCount) => {
@@ -66,24 +70,34 @@ class App extends Component {
     this.setState({infoText: navigator.online ? 'online' : 'offline'})
   };
 
-  componentDidMount() {
-    this.mounted = true;
-    window.addEventListener('online', this.networkStatus);
-    window.addEventListener('offline', this.networkStatus);
-    getEvents().then((events) => {
-      if (this.mounted) {
-        events=events.slice(0,this.state.eventCount);
-        this.setState({ events, locations: extractLocations(events) });
-        this.networkStatus();
+    async componentDidMount() {
+      this.mounted = true;
+      const accessToken = localStorage.getItem('access_token');
+      const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get("code");
+
+      this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+
+      if ((code || isTokenValid) && this.mounted) {
+        getEvents().then((events) => {
+          if (this.mounted) {
+            this.setState({ events, locations: extractLocations(events) });
+          }
+        });
       }
-    });
-  }
+
+      window.addEventListener('online', this.networkStatus);
+      window.addEventListener('offline', this.networkStatus);
+      this.networkStatus();
+    }
 
   componentWillUnmount(){
     this.mounted = false;
   }
 
   render() {
+    if (this.state.showWelcomeScreen === undefined) return <div className="App" />
     return (
       <div className="App">
         <InfoAlert text={this.state.infoText} />
@@ -100,6 +114,8 @@ class App extends Component {
           />
         </div>
         <EventList events={this.state.events} />
+        <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
+        getAccessToken={() => { getAccessToken() }} />
       </div>
     );
   }
