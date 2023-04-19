@@ -89,6 +89,7 @@ class App extends Component {
 
       window.addEventListener('online', this.networkStatus);
       window.addEventListener('offline', this.networkStatus);
+
       this.networkStatus();
     }
 
@@ -99,24 +100,26 @@ class App extends Component {
   render() {
     if (this.state.showWelcomeScreen === undefined) return <div className="App" />
     return (
-      <div className="App">
-        <InfoAlert text={this.state.infoText} />
-        <h1>Search All Cities</h1>
-        <div className="citySearch">
-          <CitySearch 
-            locations={this.state.locations} 
-            updateEvents={this.updateEvents} 
-          />
-          <NumberOfEvents
-            selectedCity={this.state.selectedCity}
-            num={this.state.eventCount}
-            updateEvents={this.updateEvents}
-          />
-        </div>
-        <EventList events={this.state.events} />
-        <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
-        getAccessToken={() => { getAccessToken() }} />
-      </div>
+        <>
+          <div className="App">
+            <InfoAlert text={this.state.infoText} />
+            <h1>Search All Cities</h1>
+            <div className="citySearch">
+              <CitySearch
+                locations={this.state.locations}
+                updateEvents={this.updateEvents}
+              />
+              <NumberOfEvents
+                selectedCity={this.state.selectedCity}
+                num={this.state.eventCount}
+                updateEvents={this.updateEvents}
+              />
+            </div>
+            <EventList events={this.state.events} />
+          </div>
+          <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
+                  getAccessToken={() => { getAccessToken() }} />
+        </>
     );
   }
 }
