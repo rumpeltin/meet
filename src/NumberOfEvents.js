@@ -1,39 +1,41 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { ErrorAlert } from "./Alert";
 
-class NumberOfEvents extends Component {
-  state = { num: 32, alert: '' }
+const NumberOfEvents = (props) => {
+  const [num, setNum] = useState(32);
+  const [alert, setAlert] = useState('');
 
-  handleInputChanged = (event, props) => {
-      let amount = event.target.value;
-      let err;
+  const handleInputChanged = (event) => {
+      const inputNum = event.target.value;
+      let updatedNum = inputNum;
+      let err = '';
 
-      if (amount > 32) {
+      if (inputNum > 32) {
         err = 'Sorry, we cannot show more than 32 events at once.';
-        amount = 32;
-      } else if (amount <= 0) {
+        updatedNum = 32;
+      } else if (inputNum <= 0) {
         err = 'Please choose at least 1.';
-        amount = 1;
+        updatedNum = 1;
       }
-      this.props.updateEvents(null, amount);
-      this.setState({ num: amount, alert: err });
-    }
 
-  render() {
-    return (
-      <>
-        <input
-          className='num'
-          type='number'
-          min={1}
-          max={32}
-          value={this.state.num}
-          onChange={this.handleInputChanged}
-        />
-        <ErrorAlert text={this.state.alert} />
-      </>
-    );
+      props.updateEvents(null, updatedNum);
+      setNum(updatedNum);
+      setAlert(err);
   }
+
+  return (
+    <>
+      <input
+        className='num'
+        type='number'
+        min={1}
+        max={32}
+        value={num}
+        onChange={handleInputChanged}
+      />
+      <ErrorAlert text={alert} />
+    </>
+  );
 }
 
 export default NumberOfEvents;

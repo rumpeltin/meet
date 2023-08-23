@@ -11,40 +11,40 @@ import { mockData } from './mock-data';
  * The Set will remove all duplicates from the array.
 */
 
+
 export const extractLocations = (events) => {
-  var extractLocations = events.map((event) => event.location);
-  var locations = [...new Set(extractLocations)];
-  return locations;
+  const locations = events.map((event) => event.location);
+  return [...new Set(locations)];
+};
+
+const fetchTokenInfo = async (accessToken) => {
+  const response = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`);
+  return response.json();
+};
+
+const redirectToAuthUrl = async () => {
+  const results = await axios.get("https://48pwfyunxc.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url");
+  window.location.href = results.data.authUrl;
 };
 
 export const getAccessToken = async () => {
   const accessToken = localStorage.getItem('access_token');
-  const tokenCheck = accessToken && (await checkToken(accessToken));
-
-  if (!accessToken || tokenCheck.error) {
-    await localStorage.removeItem("access_token");
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = await searchParams.get("code");
+  
+  if (!accessToken || (await fetchTokenInfo(accessToken)).error) {
+    localStorage.removeItem("access_token");
+    const code = new URLSearchParams(window.location.search).get("code");
     if (!code) {
-      const results = await axios.get(
-        "https://48pwfyunxc.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url"
-      );
-      const { authUrl } = results.data;
-      return (window.location.href = authUrl);
+      await redirectToAuthUrl();
+      return null;
     }
-    return code && getToken(code);
+    return await getToken(code);
   }
+  
   return accessToken;
-}
+};
 
 export const checkToken = async (accessToken) => {
-  const result = await fetch(
-    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
-  )
-    .then((res) => res.json())
-    .catch((error) => error.json());
-
-  return result;
+  return fetchTokenInfo(accessToken);
 };
 
 export const getEvents = async () => {
@@ -68,7 +68,7 @@ export const getEvents = async () => {
     const url = `https://48pwfyunxc.execute-api.eu-central-1.amazonaws.com/dev/api/get-events/${token}`;
     const result = await axios.get(url);
     if (result.data) {
-      var locations = extractLocations(result.data.events);
+      const locations = extractLocations(result.data.events);
       localStorage.setItem('lastEvents', JSON.stringify(result.data));
       localStorage.setItem('locations', JSON.stringify(locations));
     }
@@ -78,31 +78,23 @@ export const getEvents = async () => {
 };
 
 const removeQuery = () => {
-  if (window.history.pushState && window.location.pathname) {
-    var newurl =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname;
-    window.history.pushState("", "", newurl);
-  } else {
-    newurl = window.location.protocol + "//" + window.location.host;
-    window.history.pushState("", "", newurl);
-  }
+  const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+  window.history.pushState({}, '', newurl);
 };
 
 const getToken = async (code) => {
   try {
-      const encodedCode = encodeURIComponent(code);
-
-      const response = await fetch(`https://48pwfyunxc.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodedCode}`);
-      if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      const { access_token } = await response.json();
-      access_token && localStorage.setItem("access_token", access_token);
-      return access_token;
-  } catch(error) {
-      error.json();
+    const encodedCode = encodeURIComponent(code);
+    const response = await fetch(`https://48pwfyunxc.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodedCode}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const { access_token } = await response.json();
+    access_token && localStorage.setItem("access_token", access_token);
+    return access_token;
+  } catch (error) {
+    console.error("Error fetching token:", error);
   }
-}
+};
