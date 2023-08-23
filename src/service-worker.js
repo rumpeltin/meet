@@ -69,4 +69,19 @@ self.addEventListener('message', (event) => {
   }
 });
 
+// helps the service worker respond to network requests, serving from the cache/network
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request).then(fetchResponse => {
+                return caches.open('runtime-cache').then(cache => {
+                    cache.put(event.request, fetchResponse.clone());
+                    return fetchResponse;
+                });
+            });
+        })
+    );
+});
+
+
 // Any other custom service worker logic can go here.
