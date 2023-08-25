@@ -69,7 +69,7 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// helps the service worker respond to network requests, serving from the cache/network
+// Helps the service worker respond to network requests, serving from the cache/network.
 self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request).then(response => {
